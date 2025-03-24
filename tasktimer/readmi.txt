@@ -1,0 +1,8 @@
+
+1. Поставить Python (последний)
+2. Прописать путь Env в windows:  'c:\Python_3_13' , 'c:\Python_3_13\Scripts'
+3. Выполнить - pip install --upgrade pip
+
+Run project:
+cd d:\tasktimer\
+streamlit run main.py
