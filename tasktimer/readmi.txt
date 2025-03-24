@@ -10,3 +10,10 @@ pip install -r requirements.txt
 -- Run project:
 cd d:\tasktimer\
 streamlit run main.py
+
+
+
+-- убрать тестовый режим:
+d:\tasktimer\lib
+	TEST_TIMER = False
+
