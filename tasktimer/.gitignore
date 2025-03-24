@@ -1,0 +1,8 @@
+# PyCharm
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+__pycache__/
+
