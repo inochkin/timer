@@ -1,0 +1,11 @@
+[client]
+showSidebarNavigation = false
+
+
+[theme]
+primaryColor="green"
+
+
+[server]
+#sslCertFile = '/path/to/certchain.pem'
+#sslKeyFile = '/path/to/private.key'

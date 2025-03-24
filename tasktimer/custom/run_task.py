@@ -128,8 +128,8 @@ def import_run_task(user_timezone, hours_minutes, desc, priority, limit_timer,
                     element.style.opacity = '1';   // Делаем элемент видимым
                     
                     // update text button to 'Close'
-                    // var cancel_button = document.getElementById("close_button");
-                    // cancel_button.innerText = "Close"
+                    var button_cancel = window.parent.document.querySelector("button[data-testid='stBaseButton-secondary']");
+                    button_cancel.innerText = "Close"
                     
                     return;
                 }}

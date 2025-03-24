@@ -5,6 +5,9 @@ def import_main_styles():
     css = """
     <style>
     
+     div[data-testid="stMarkdownContainer"] > p { color: #101010  !important;}
+     [data-testid="stIconMaterial"] { color: #101010 !important;}
+     
     /* Скрываем пустые контейнеры от CookieController после рефреша */
     .stElementContainer:has(iframe[height="0"]) {
         display: none !important;
@@ -16,16 +19,11 @@ def import_main_styles():
     
     .stSidebar{
         background: #4c78a3;
-        transition: background-color 0.1s;
+        transition: background-color 1.5s;
     }
     a[data-testid="stSidebarNavLink"] > span { color: white;}
     
     button[data-testid="stBaseButton-secondary"] {border: 2px solid rgb(231 154 149);}
-    
-    /* popup styles   */
-    button[aria-label="Close"] {
-        display: none !important;
-    }
     
     button[data-testid="stBaseButton-headerNoPadding"] {color: white;}
     button[data-testid="stBaseButton-headerNoPadding"] > svg {width: 30px; height: 30px;}

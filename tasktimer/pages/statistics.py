@@ -1,12 +1,14 @@
 import streamlit as st
 
 st.set_page_config(layout="wide")  # Устанавливает широкий макет
+from lib.sidebar_custom import custom_sidebar
 
 from custom.not_main_page_styles import import_not_main_page_styles
 from database.db_init import db_tasks
 import plotly.express as px
 
 import_not_main_page_styles()
+custom_sidebar()
 
 
 st.title("Statistics")
@@ -19,17 +21,14 @@ for day, total_minutes in last_7_days_data:
     hours = total_minutes // 60
     minutes = total_minutes % 60
     total_time = f"{hours:02}:{minutes:02}"
-    print(f"Date: {day}, Total time: {total_time}")
-
-    hours_per_day_str.append(total_time)  # !!!
+    hours_per_day_str.append(total_time)
 
 days_of_week = [day for day, _ in last_7_days_data]
 total_minutes_by_day = [total_minutes for _, total_minutes in last_7_days_data]
 
 
-print('days_of_week ', days_of_week)
-print('total_minutes_by_day ', total_minutes_by_day)
-
+# print('days_of_week ', days_of_week)
+# print('total_minutes_by_day ', total_minutes_by_day)
 
 # Создаем DataFrame
 import pandas as pd

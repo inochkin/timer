@@ -34,7 +34,7 @@ def import_create_button_styles():
             }
     
             .element-container:has(#button-create) + div button p {
-                color: white;
+                color: white !important;
                 font-size: 18px;
             }
     

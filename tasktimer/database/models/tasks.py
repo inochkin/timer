@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from sqlalchemy import Column, Integer, DateTime, String, desc, asc
+from sqlalchemy import Column, Integer, DateTime, String, desc
 from database.main_db import Base, decor_session
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
@@ -26,7 +26,6 @@ class Tasks(Base):
         user_id = '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
         uuid_obj = uuid.UUID(user_id)  # Конвертация строки в объект UUID
         return uuid_obj
-
 
 
     @decor_session
@@ -129,6 +128,9 @@ class Tasks(Base):
 
     @decor_session
     def statistic_graph_by_last_7_days(self, session):
+
+        uuid_obj = self.get_user_id()  # TODO need user user auth
+
         seven_days_ago = datetime.now() - timedelta(days=7)
         # Запрос для выборки данных за последние 7 дней и группировки по дням
         return (
@@ -137,7 +139,8 @@ class Tasks(Base):
                 func.sum(func.cast(func.substring(Tasks.hours_minutes, 1, 2), Integer) * 60 + func.cast(
                     func.substring(Tasks.hours_minutes, 4, 2), Integer)).label('total_minutes')
             )
-            .filter(Tasks.datetime_create >= seven_days_ago)
+            .filter(Tasks.datetime_create >= seven_days_ago,
+                    Tasks.user_id == uuid_obj)
             .group_by(func.date(Tasks.datetime_create))
             .order_by(desc(func.date(Tasks.datetime_create)))
             .all()

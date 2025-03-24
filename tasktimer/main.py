@@ -1,6 +1,7 @@
 import streamlit as st
-st.set_page_config(layout="wide")  # Устанавливает широкий макет
 
+st.set_page_config(layout="wide")  # Устанавливает широкий макет
+from lib.sidebar_custom import custom_sidebar
 from components.card_1 import card_1
 from components.card_2 import card_2
 from components.card_3 import card_3
@@ -9,25 +10,26 @@ from lib.general_func import handle_user_timezone, save_task_to_db
 
 
 import_main_styles()
+custom_sidebar()
 
 
 # Используем session_state
 for key in ["hours_minutes", "desc", "priority"]:
     st.session_state.setdefault(key, None)
 
+# Используем session_state для отслеживания состояния контейнеров
+if "step" not in st.session_state:
+    st.session_state.step = 1
+
+
+save_task_to_db()
+
 
 # unpacking variables - TimeZone user handle
 (user_timezone, curr_datetime_by_user_timezone,
  curr_date_by_user_timezone, count_completed_tasks_today) = handle_user_timezone()
 
-
-# ---
-save_task_to_db()
-
 # --------------------------------
-# Используем session_state для отслеживания состояния контейнеров
-if "step" not in st.session_state:
-    st.session_state.step = 1
 
 
 def next_step():

@@ -38,7 +38,7 @@ def import_run_button_style():
                 }
 
                 .element-container:has(#button-after3) + div button p {
-                    color: white;
+                    color: white !important;
                     font-size: 18px;
                 }
 

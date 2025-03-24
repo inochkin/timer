@@ -1,11 +1,13 @@
 import streamlit as st
 st.set_page_config(layout="centered")  # Устанавливает широкий макет
 
+from lib.sidebar_custom import custom_sidebar
 from custom.not_main_page_styles import import_not_main_page_styles
 from database.db_init import db_settings
 from lib.general_func import selector_timezone
 
 import_not_main_page_styles()
+custom_sidebar()
 
 st.title("User settings")
 
