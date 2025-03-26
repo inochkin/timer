@@ -41,7 +41,7 @@ def card_3(user_timezone):
         import_run_task(user_timezone, hours_minutes, desc, priority,
                         limit_timer, audio_source_done, audio_source_click)
 
-        if st.button("Cancel"):
+        if st.button("Close"):
             # need full restart page to get cookies update.
             st_js("parent.window.location.reload()")
 

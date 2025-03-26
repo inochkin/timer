@@ -113,6 +113,7 @@ def import_run_task(user_timezone, hours_minutes, desc, priority, limit_timer,
                     // Устанавливаем куки о завершении задачи
                     // "hours_minutes", "desc", "priority", task_start_datetime, task_end_datetime
                      
+                    document.cookie = `task_is_created=1; path=/`;
                     document.cookie = `task_start_datetime=${{task_start_datetime}}; path=/`;
                     document.cookie = `task_end_datetime=${{task_end_datetime}}; path=/`;
                     document.cookie = `hours_minutes=${{hours_minutes}}; path=/`;
@@ -128,8 +129,8 @@ def import_run_task(user_timezone, hours_minutes, desc, priority, limit_timer,
                     element.style.opacity = '1';   // Делаем элемент видимым
                     
                     // update text button to 'Close'
-                    var button_cancel = window.parent.document.querySelector("button[data-testid='stBaseButton-secondary']");
-                    button_cancel.innerText = "Close"
+                    //var button_cancel = window.parent.document.querySelector("button[data-testid='stBaseButton-secondary']");
+                    //button_cancel.innerText = "Close"
                     
                     return;
                 }}

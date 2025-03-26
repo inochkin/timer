@@ -1,7 +1,7 @@
 import streamlit as st
 from datetime import time
 from custom.run_button import import_run_button_style
-from database.db_init import db_settings
+from database.db_init import db_users
 from lib.static import OPTIONS_PRIORITY, LOW, get_priority_name
 
 
@@ -12,7 +12,7 @@ def card_2(count_completed_tasks_today, next_step):
     min_time_option = 15
     step_interval = 900
 
-    min_time_user_setting = db_settings.get_min_time_user()
+    min_time_user_setting = db_users.get_min_time_user()
     if min_time_user_setting:
         min_time_option = int(min_time_user_setting)
         step_interval = min_time_option * 60
