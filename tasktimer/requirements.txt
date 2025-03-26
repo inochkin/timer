@@ -2,7 +2,7 @@ altair==5.5.0
 cryptography==44.0.2
 pandas==2.2.3
 plotly==6.0.1
-python_bcrypt==0.3.2
+bcrypt==4.3.0
 pytz==2025.1
 SQLAlchemy==2.0.39
 streamlit==1.43.2
