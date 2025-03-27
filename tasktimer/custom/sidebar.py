@@ -15,6 +15,7 @@ def custom_sidebar():
     Custom menu instead of all pages from 'pages' folder.
     """
 
+
     # -- init session_state
     init_session_state_user_auth()
 

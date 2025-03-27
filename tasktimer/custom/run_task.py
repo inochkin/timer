@@ -93,7 +93,6 @@ def import_run_task(user_timezone, hours_minutes, desc, priority, limit_timer,
                     return `${{year}}-${{month}}-${{day}} ${{hour}}:${{minute}}:${{second}}`;
                 }}
             
-            
             function updateTimer() {{
                 if (!timerRunning || timerPaused) return;
 
@@ -129,8 +128,9 @@ def import_run_task(user_timezone, hours_minutes, desc, priority, limit_timer,
                     element.style.opacity = '1';   // Делаем элемент видимым
                     
                     // update text button to 'Close'
-                    //var button_cancel = window.parent.document.querySelector("button[data-testid='stBaseButton-secondary']");
-                    //button_cancel.innerText = "Close"
+                    var button_cancel = Array.from(window.parent.document.querySelectorAll("button")).find(
+                                                   b => b.innerText.includes("Cancel"));
+                    button_cancel.innerText = "Close"
                     
                     return;
                 }}
@@ -216,8 +216,6 @@ def import_run_task(user_timezone, hours_minutes, desc, priority, limit_timer,
          <audio id="audio_click">
             <source src="{audio_source_click}" type="audio/mp3">
          </audio>
-
-         <!--- <button id="close_button" type="button" class='button_close'> Cancel </button> -->
 
     """
     components.html(timer_html, height=215)

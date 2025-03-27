@@ -11,6 +11,17 @@ key_session = b'wVXBaBRl-PVU78CuCNUTYZt3uG1nnJxUVkgApOD_B8o='
 cipher = Fernet(key_session)
 
 
+"""
+Особенность st_javascript пакета.
+st_javascript() - созлается веб элемент который должен иметь уникальный ключ.
+если ключ не уникальный падает еррор.
+Если генерировать случайные ключи для st_javascript() то будет циключеское зависание,\
+т.к. на каждое изменение strimlit делает запрос.
+
+"""
+
+
+
 def run_st_javascript(js_code: str, key_element_js: str):
     # print('>>>>> unique_key =', key_element_js)
     return st_javascript(js_code, key=key_element_js)

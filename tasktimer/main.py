@@ -24,9 +24,7 @@ if user_is_authorised():
     if "step" not in st.session_state:
         st.session_state.step = 1
 
-
     save_task_to_db()
-
 
     # ------------- timezone user -------------------
     data_db = handle_user_timezone()

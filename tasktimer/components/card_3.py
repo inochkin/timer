@@ -1,3 +1,4 @@
+import random
 import streamlit as st
 from streamlit_js import st_js
 import base64
@@ -29,7 +30,11 @@ def card_3(user_timezone):
 
         # --- to play MP3 need convert it to base64 to run as url source only.
         # if use source path - it will not work.
-        with open('static/done.mp3', "rb") as f:
+
+        files_mp3 = ["done", "s2", "s3", "s4", "s5", "s6", "s7", "s8"]
+        file_name = random.choice(files_mp3)
+
+        with open(f'static/{file_name}.mp3', "rb") as f:
             audio_base64 = base64.b64encode(f.read()).decode()
             audio_source_done = f"data:audio/mp3;base64,{audio_base64}"
 
@@ -41,7 +46,7 @@ def card_3(user_timezone):
         import_run_task(user_timezone, hours_minutes, desc, priority,
                         limit_timer, audio_source_done, audio_source_click)
 
-        if st.button("Close"):
+        if st.button("Cancel"):
             # need full restart page to get cookies update.
             st_js("parent.window.location.reload()")
 
