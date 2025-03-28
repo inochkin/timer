@@ -4,7 +4,6 @@ import streamlit as st
 def import_main_styles():
     css = """
     <style>
-    
     [data-testid="stSidebarHeader"]::after  {
                 content: "TASK TIMER";
                 margin-left: 20px;
@@ -21,8 +20,13 @@ def import_main_styles():
      [data-testid="stIconMaterial"] { color: #101010 !important;}
      
     .stMainBlockContainer {background: #aac9e7;}
-    .stMain {background: #aac9e7;}
-    header {background: #aac9e7 !important;}
+    .stMain {background: #98bfe5;);
+    }
+    
+    // hide defualt header
+    header {visibility: hidden;}
+    [data-testid="stHeader"] {display: none;}
+    
     
     .stSidebar{
         background: #4c78a3;

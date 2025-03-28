@@ -20,6 +20,7 @@ class User(Base):
     date_registration = Column(DateTime, default=datetime.now(timezone.utc))
     timezone_user = Column(String)
     min_task_user = Column(String)
+    final_sound = Column(String)
 
     # --------------------------------------------------------------------
 
@@ -154,12 +155,31 @@ class User(Base):
 
 
     @decor_session
+    def save_final_sound(self, final_sound, session):
+        user_id = self._get_user_id_object()
+        if user_id:
+            if final_sound:
+                user = session.query(User).filter(User.id == user_id).first()
+                if user:
+                    user.final_sound = final_sound
+                    session.commit()
+
+
+    @decor_session
     def get_min_time_user(self, session):
         user_id = self._get_user_id_object()
         if user_id:
             user = session.query(User).filter(User.id == user_id).first()
             if user:
                 return user.min_task_user
+
+    @decor_session
+    def get_final_sound_user(self, session):
+        user_id = self._get_user_id_object()
+        if user_id:
+            user = session.query(User).filter(User.id == user_id).first()
+            if user:
+                return user.final_sound
 
 
     @decor_session

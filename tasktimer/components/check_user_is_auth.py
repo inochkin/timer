@@ -18,10 +18,12 @@ def init_session_state_user_auth():
                 'user_is_authorised',
                 'username',
                 'user_email',
-                'user_id'
+                'user_id',
+                'redirected_if_not_auth'
                 ]:
         if key not in st.session_state:
             st.session_state[key] = False
+
 
     # ----------------------------------------
     # print('---- call init -------')
@@ -42,6 +44,19 @@ def init_session_state_user_auth():
             st.session_state['username'] = user_data[0]
             st.session_state['user_email'] = user_data[1]
             st.session_state['user_id'] = user_data[2]
+
+    # redirect not auth user to main page if he tries to open some pages. (!Except registration page)
+    _redirect_user_if_not_auth()
+
+
+def _redirect_user_if_not_auth():
+    # redirect not auth user to main page if he tries to open some pages. (!Except registration page)
+    if not user_is_authorised() and not st.session_state["redirected_if_not_auth"]:
+        st.session_state["redirected_if_not_auth"] = True
+
+        query_params = st.query_params  # check if current page is not Registration page.
+        if not query_params.get('token', None):
+            st.switch_page("main.py")  # redirect without full update page.
 
 
 def user_is_authorised():

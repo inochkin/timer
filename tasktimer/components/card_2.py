@@ -1,8 +1,8 @@
-import random
 import streamlit as st
 from streamlit_js import st_js
 import base64
 from custom.run_task import import_run_task
+from database.db_init import db_users
 from lib.general_func import time_to_seconds
 from lib.static import TEST_TIMER
 
@@ -31,8 +31,8 @@ def card_2(user_timezone):
         # --- to play MP3 need convert it to base64 to run as url source only.
         # if use source path - it will not work.
 
-        files_mp3 = ["done", "s2", "s3", "s4", "s5", "s6", "s7", "s8"]
-        file_name = random.choice(files_mp3)
+        final_sound_user = db_users.get_final_sound_user()
+        file_name = final_sound_user if final_sound_user else "sound 8 (default)"
 
         with open(f'static/{file_name}.mp3', "rb") as f:
             audio_base64 = base64.b64encode(f.read()).decode()

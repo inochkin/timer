@@ -30,7 +30,7 @@ if user_is_authorised():
     if not isinstance(data_db, tuple):
         user_timezone = None
         curr_date_by_user_timezone = None
-        count_completed_tasks_today = None
+        count_completed_tasks_today = 0
     else:
         # unpacking variables - TimeZone user handle
         (user_timezone, _, count_completed_tasks_today) = data_db

@@ -15,7 +15,6 @@ def custom_sidebar():
     Custom menu instead of all pages from 'pages' folder.
     """
 
-
     # -- init session_state
     init_session_state_user_auth()
 
@@ -183,6 +182,9 @@ def modal_login():
 def logout():
     delete_cookie(USER_AUTH_DATA_ENCRYPTED, '13')
     st_js("parent.window.location.reload()", key='refresh')
+    # time.sleep(1)
+    # st.switch_page("main.py")  # redirect without full update page.
+
 
 
 

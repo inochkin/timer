@@ -22,7 +22,10 @@ def import_not_main_page_styles():
 
         .stMainBlockContainer {background: #aac9e7;}
         .stMain {background: #aac9e7;}
-        header {background: #aac9e7 !important;}
+        
+        // hide defualt header
+        header {visibility: hidden;}
+        [data-testid="stHeader"] {display: none;}
 
         .stSidebar{
             background: #4c78a3;
