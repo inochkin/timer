@@ -1,5 +1,5 @@
 import streamlit as st
-st.set_page_config(layout="centered")  # Устанавливает широкий макет
+st.set_page_config(layout="centered")
 
 from custom.sidebar import custom_sidebar
 from custom.not_main_page_styles import import_not_main_page_styles

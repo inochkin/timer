@@ -20,11 +20,6 @@ def import_main_styles():
      div[data-testid="stMarkdownContainer"] > p { color: #101010  !important;}
      [data-testid="stIconMaterial"] { color: #101010 !important;}
      
-    /* Скрываем пустые контейнеры от CookieController после рефреша */
-    .stElementContainer:has(iframe[height="0"]) {
-        display: none !important;
-    }
-        
     .stMainBlockContainer {background: #aac9e7;}
     .stMain {background: #aac9e7;}
     header {background: #aac9e7 !important;}

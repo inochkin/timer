@@ -1,19 +1,44 @@
 import streamlit as st
+st.set_page_config(layout="wide")
 
-st.set_page_config(layout="wide")  # Устанавливает широкий макет
+from components.chart_completed_tasks_today import import_chart_completed_tasks_today
+from components.table_todays_tasks import import_table_today_tasks
+from custom.main_styles import import_main_styles
+from lib.general_func import handle_user_timezone
 from custom.sidebar import custom_sidebar
-
-from custom.not_main_page_styles import import_not_main_page_styles
 from database.db_init import db_tasks
 import plotly.express as px
 
-import_not_main_page_styles()
+import_main_styles()
 custom_sidebar()
 
 
 st.title("Statistics")
 
 
+# ------------- timezone user -------------------
+data_db = handle_user_timezone()
+if not isinstance(data_db, tuple):
+    user_timezone = None
+    curr_date_by_user_timezone = None
+    count_completed_tasks_today = None
+else:
+    # unpacking variables - TimeZone user handle
+    (user_timezone, curr_date_by_user_timezone, count_completed_tasks_today) = data_db
+
+# --------------------------------
+
+# -- table and chart
+if count_completed_tasks_today:
+    st.text("The table displays Today's completed tasks.")
+    import_table_today_tasks(curr_date_by_user_timezone, count_completed_tasks_today)
+    # -- chart
+    import_chart_completed_tasks_today(curr_date_by_user_timezone)
+else:
+    st.info("- no tasks for Today.")
+
+
+# ------------------------------ last_7_days_data
 last_7_days_data = db_tasks.statistic_graph_by_last_7_days()
 hours_per_day_str = []
 
@@ -61,4 +86,5 @@ if last_7_days_data:
     st.plotly_chart(fig)
 
 else:
-    st.warning('No data yet.')
+    st.info('No data yet.')
+

@@ -92,6 +92,8 @@ def import_run_task(user_timezone, hours_minutes, desc, priority, limit_timer,
                     // Собираем итоговую строку
                     return `${{year}}-${{month}}-${{day}} ${{hour}}:${{minute}}:${{second}}`;
                 }}
+                
+            // -----------------------------------
             
             function updateTimer() {{
                 if (!timerRunning || timerPaused) return;
@@ -172,17 +174,6 @@ def import_run_task(user_timezone, hours_minutes, desc, priority, limit_timer,
             // Автозапуск таймера
             setTimeout(toggleTimer, 500);
 
-
-           // -- custom reload page after click on Close button to visibility issues with loading
-           // page if click on strimlit button. 
-           document.addEventListener("DOMContentLoaded", function() {{
-                const button = document.getElementById("close_button");
-                if (button) {{
-                    button.addEventListener("click", function() {{
-                        window.parent.location.reload();
-                    }});
-                }}
-            }});
 
         // --------------------
         </script>

@@ -1,54 +1,54 @@
+import random
 import streamlit as st
-from datetime import time
-from custom.run_button import import_run_button_style
-from database.db_init import db_users
-from lib.static import OPTIONS_PRIORITY, LOW, get_priority_name
+from streamlit_js import st_js
+import base64
+from custom.run_task import import_run_task
+from lib.general_func import time_to_seconds
+from lib.static import TEST_TIMER
 
 
-def card_2(count_completed_tasks_today, next_step):
-
-    # --------------------- поля
-    # Поле для ввода часов и минут
-    min_time_option = 15
-    step_interval = 900
-
-    min_time_user_setting = db_users.get_min_time_user()
-    if min_time_user_setting:
-        min_time_option = int(min_time_user_setting)
-        step_interval = min_time_option * 60
-
-    _, col2, _ = st.columns([1, 1, 1])
+def card_2(user_timezone):
+    _, col2, _ = st.columns([1, 2, 1])
     with col2:
+        st.title("Run Task")
 
-        st.title("Create Task")
+        hours_minutes = st.session_state.hours_minutes
+        desc = st.session_state.desc
+        priority = st.session_state.priority
 
-        hours_minutes = st.time_input("Choose period time", time(0, min_time_option), step=step_interval)
-        hours_minutes = hours_minutes.strftime("%H:%M")
+        # -------------- short desc
+        max_length = 60  # Максимальная длина текста
+        short_desc = desc[:max_length] + "..." if len(desc) > max_length else desc
+        st.text(short_desc)
+        # --------------
 
-        # -- Show detail options
+        # Укажите лимит таймера в секундах
+        if TEST_TIMER:
+            limit_timer = 10
+        else:
+            limit_timer = time_to_seconds(hours_minutes)
 
-        # default desc for task if user not set.
-        desc = f'Task - {count_completed_tasks_today + 1}'
+        # --- to play MP3 need convert it to base64 to run as url source only.
+        # if use source path - it will not work.
 
-        priority = OPTIONS_PRIORITY[LOW]  # default
+        files_mp3 = ["done", "s2", "s3", "s4", "s5", "s6", "s7", "s8"]
+        file_name = random.choice(files_mp3)
 
-        if st.toggle("Show detail options"):
-            with st.container():
-                max_length = 300  # Максимальная длина текста
-                desc = st.text_area("Task description", max_chars=max_length)
-                st.session_state.desc_max_limit = False
-                if len(desc) >= max_length:
-                    st.warning(f"Max length of description is: {max_length}.")
-                    st.session_state.desc_max_limit = True
+        with open(f'static/{file_name}.mp3', "rb") as f:
+            audio_base64 = base64.b64encode(f.read()).decode()
+            audio_source_done = f"data:audio/mp3;base64,{audio_base64}"
 
-                priority = st.radio("Set priority 👉", list(OPTIONS_PRIORITY.values()),
-                                    format_func=lambda x: f"{x}. {get_priority_name(x)}")
+        with open('static/click.mp3', "rb") as f:
+            audio_base64 = base64.b64encode(f.read()).decode()
+            audio_source_click = f"data:audio/mp3;base64,{audio_base64}"
 
-        import_run_button_style()
+        # HTML + JavaScript таймер с ограничением
+        import_run_task(user_timezone, hours_minutes, desc, priority,
+                        limit_timer, audio_source_done, audio_source_click)
 
-        if st.button("Run"):
-            # -- save fields
-            st.session_state.hours_minutes = hours_minutes
-            st.session_state.desc = desc
-            st.session_state.priority = priority
-            next_step()
+        if st.button("Cancel"):
+            # need full restart page to get cookies update.
+            st_js("parent.window.location.reload()")
+
+
+
