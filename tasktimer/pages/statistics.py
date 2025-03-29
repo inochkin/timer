@@ -4,7 +4,6 @@ st.set_page_config(layout="wide")
 from components.chart_completed_tasks_today import import_chart_completed_tasks_today
 from components.table_todays_tasks import import_table_today_tasks
 from custom.main_styles import import_main_styles
-from lib.general_func import handle_user_timezone
 from custom.sidebar import custom_sidebar
 from database.db_init import db_tasks
 import plotly.express as px
@@ -15,25 +14,14 @@ custom_sidebar()
 
 st.title("Statistics")
 
-
-# ------------- timezone user -------------------
-data_db = handle_user_timezone()
-if not isinstance(data_db, tuple):
-    user_timezone = None
-    curr_date_by_user_timezone = None
-    count_completed_tasks_today = 0
-else:
-    # unpacking variables - TimeZone user handle
-    (user_timezone, curr_date_by_user_timezone, count_completed_tasks_today) = data_db
-
-# --------------------------------
+count_completed_tasks_today = db_tasks.count_completed_tasks_today()
 
 # -- table and chart
 if count_completed_tasks_today:
     st.text("The table displays Today's completed tasks.")
-    import_table_today_tasks(curr_date_by_user_timezone, count_completed_tasks_today)
+    import_table_today_tasks(count_completed_tasks_today)
     # -- chart
-    import_chart_completed_tasks_today(curr_date_by_user_timezone)
+    import_chart_completed_tasks_today()
 else:
     st.info("- no tasks for Today.")
 

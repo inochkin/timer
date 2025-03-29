@@ -1,9 +1,6 @@
 from custom.not_main_page_styles import import_not_main_page_styles
 from custom.sidebar import *
-# from sidebar_custom import custom_sidebar  # ! need import not from *
-# from check_user_is_auth import init_session_state_user_auth  # ! need import not from *
 import time
-
 
 import_not_main_page_styles()
 custom_sidebar()  # -- sidebar custom

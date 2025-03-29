@@ -5,9 +5,8 @@ from lib.static import FORMAT_DATATIME, get_priority_name, get_status_name
 from lib.general_func import highlight_cells
 
 
-def import_table_today_tasks(curr_date_by_user_timezone, count_completed_tasks_today):
-
-    tasks_today = db_tasks.get_all_tasks_today_completed_and_all_not(curr_date_by_user_timezone)
+def import_table_today_tasks(count_completed_tasks_today):
+    tasks_today = db_tasks.get_all_tasks_today_completed_and_all_not()
     if tasks_today:
         task_list = [{"№": index,
                       "🕗 Created": task.datetime_create.strftime(FORMAT_DATATIME) if task.datetime_create else '',

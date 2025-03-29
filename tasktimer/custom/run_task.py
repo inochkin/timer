@@ -1,8 +1,7 @@
 import streamlit.components.v1 as components
 
 
-def import_run_task(user_timezone, hours_minutes, desc, priority, limit_timer,
-                    audio_source_done, audio_source_click):
+def import_run_task(hours_minutes, desc, priority, limit_timer, audio_source_done, audio_source_click):
     # HTML + JavaScript таймер с ограничением
     timer_html = f"""
           <style>
@@ -37,9 +36,6 @@ def import_run_task(user_timezone, hours_minutes, desc, priority, limit_timer,
           </style>
 
         <script>
-            // format = 'Europe/Kiev'
-            const user_timezone = "{user_timezone}";
-        
             const task_start_datetime = getLocalDateTime();
             const hours_minutes = "{hours_minutes}";
             const desc = "{desc}";
@@ -60,38 +56,16 @@ def import_run_task(user_timezone, hours_minutes, desc, priority, limit_timer,
             }}
           
             function getLocalDateTime() {{
-                    const now = new Date();
-                
-                    // Опции форматирования с указанием часового пояса
-                    const options = {{
-                        timeZone: user_timezone,
-                        year: 'numeric',
-                        month: '2-digit',
-                        day: '2-digit',
-                        hour: '2-digit',
-                        minute: '2-digit',
-                        second: '2-digit',
-                        hour12: false, // 24-часовой формат
-                    }};
-                
-                    // Получаем разбитые части даты
-                    const formatter = new Intl.DateTimeFormat('en-GB', options);
-                    const parts = formatter.formatToParts(now);
-                
-                    // Извлекаем нужные части
-                    let day, month, year, hour, minute, second;
-                    for (const part of parts) {{
-                        if (part.type === "day") day = part.value;
-                        if (part.type === "month") month = part.value;
-                        if (part.type === "year") year = part.value;
-                        if (part.type === "hour") hour = part.value;
-                        if (part.type === "minute") minute = part.value;
-                        if (part.type === "second") second = part.value;
-                    }}
-                
-                    // Собираем итоговую строку
-                    return `${{year}}-${{month}}-${{day}} ${{hour}}:${{minute}}:${{second}}`;
-                }}
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0'); // Месяцы от 0 до 11
+                const day = String(now.getDate()).padStart(2, '0');
+                const hour = String(now.getHours()).padStart(2, '0');
+                const minute = String(now.getMinutes()).padStart(2, '0');
+                const second = String(now.getSeconds()).padStart(2, '0');
+            
+                return `${{year}}-${{month}}-${{day}} ${{hour}}:${{minute}}:${{second}}`;
+            }}
                 
             // -----------------------------------
             

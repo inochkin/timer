@@ -5,8 +5,8 @@ from lib.static import FORMAT_DATATIME, get_priority_name, get_status_name
 import altair as alt
 
 
-def import_chart_completed_tasks_today(curr_date_by_user_timezone):
-    tasks_completed_today = db_tasks.get_all_tasks_today_completed(curr_date_by_user_timezone)
+def import_chart_completed_tasks_today():
+    tasks_completed_today = db_tasks.get_all_tasks_today_completed()
 
     if tasks_completed_today:
         task_list = [{

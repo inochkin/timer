@@ -1,7 +1,7 @@
 import streamlit as st
 from streamlit_js import st_js
 from components.check_user_is_auth import init_session_state_user_auth, user_is_authorised, \
-    user_is_registered_not_active
+    user_is_registered_not_active, set_current_date_user_to_session_state
 from validate_email_address import validate_email
 import secrets
 from database.db_init import db_users
@@ -21,12 +21,14 @@ def custom_sidebar():
     st.logo('./static/logo.png', size="large", link=None, icon_image=None)
 
     with st.sidebar:
+
         if user_is_authorised():
             username = st.session_state['username']
             # user_email = st.session_state['user_email']
             # user_id = st.session_state['user_id']
             st.success(f"Hello - {username}")
 
+            set_current_date_user_to_session_state()
         else:
             st.button("Login", key='open_modal_login', on_click=modal_login, icon=':material/login:')
             st.button("Registration", key='open_modal_registration', on_click=modal_registration,
@@ -144,9 +146,9 @@ def login_user():
     if _validation_user_data(email, password, is_registration=False):
         status_authentication = db_users.authenticate_user(email, password)
 
-        print(email)
-        print(password)
-        print('status', status_authentication)
+        # print(email)
+        # print(password)
+        # print('status', status_authentication)
 
         if isinstance(status_authentication, tuple):
             user_id = status_authentication[1]

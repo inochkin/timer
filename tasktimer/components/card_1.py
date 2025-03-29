@@ -1,11 +1,11 @@
 import streamlit as st
 from datetime import time
 from custom.run_button import import_run_button_style
-from database.db_init import db_users
+from database.db_init import db_users, db_tasks
 from lib.static import OPTIONS_PRIORITY, LOW, get_priority_name
 
 
-def card_1(count_completed_tasks_today, next_step):
+def card_1(next_step):
     # Поле для ввода часов и минут
     min_time_option = 15
     step_interval = 900
@@ -26,6 +26,7 @@ def card_1(count_completed_tasks_today, next_step):
         # -- Show detail options
 
         # default desc for task if user not set.
+        count_completed_tasks_today = db_tasks.count_completed_tasks_today()
         desc = f'Task - {count_completed_tasks_today + 1}'
 
         priority = OPTIONS_PRIORITY[LOW]  # default

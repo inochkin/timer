@@ -18,7 +18,6 @@ class User(Base):
     token_confirm = Column(String, unique=True)
     status = Column(Integer, unique=True, default=False)
     date_registration = Column(DateTime, default=datetime.now(timezone.utc))
-    timezone_user = Column(String)
     min_task_user = Column(String)
     final_sound = Column(String)
 
@@ -124,26 +123,6 @@ class User(Base):
     # --------------------------------------------------------------------
 
     @decor_session
-    def save_user_timezone(self, timezone, session):
-        user_id = self._get_user_id_object()
-        if user_id:
-            if timezone:
-                user = session.query(User).filter(User.id == user_id).first()
-                if user:
-                    user.timezone_user = timezone
-                    session.commit()
-
-
-    @decor_session
-    def get_timezone_user(self, session):
-        user_id = self._get_user_id_object()
-        if user_id:
-            user = session.query(User).filter(User.id == user_id).first()
-            if user:
-                return user.timezone_user
-
-
-    @decor_session
     def save_user_min_time(self, time_sec, session):
         user_id = self._get_user_id_object()
         if user_id:
@@ -194,7 +173,6 @@ class User(Base):
                               "token_confirm": user.token_confirm,
                               "status": user.status,
                               "date_registration": user.date_registration,
-                              "timezone_user": user.timezone_user,
                               "min_task_user": user.min_task_user})
         return user_data
 

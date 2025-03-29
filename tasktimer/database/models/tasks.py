@@ -1,6 +1,8 @@
 import streamlit as st
 from datetime import datetime, timedelta
 from sqlalchemy import Column, Integer, DateTime, String, desc
+
+from components.check_user_is_auth import get_current_date_user
 from database.main_db import Base, decor_session
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
@@ -51,13 +53,14 @@ class Tasks(Base):
 
 
     @decor_session
-    def get_all_tasks_today_completed_and_all_not(self, curr_date_by_user_timezone, session):
+    def get_all_tasks_today_completed_and_all_not(self, session):
+        current_date_user = get_current_date_user()
         user_id = self._get_user_id_object()
-        if user_id:
+        if user_id and current_date_user:
             completed_tasks_today = and_(
                 Tasks.user_id == user_id,
                 Tasks.status == STATUS[DONE],
-                Tasks.datetime_end >= datetime.combine(curr_date_by_user_timezone, datetime.min.time())
+                Tasks.datetime_end >= datetime.combine(current_date_user, datetime.min.time())
             )
             not_completed_tasks_all = Tasks.status == STATUS[NOT_COMPLETED]
 
@@ -70,15 +73,16 @@ class Tasks(Base):
 
 
     @decor_session
-    def get_all_tasks_today_completed(self, curr_date_by_user_timezone, session):
+    def get_all_tasks_today_completed(self, session):
+        current_date_user = get_current_date_user()
         user_id = self._get_user_id_object()
-        if user_id:
+        if user_id and current_date_user:
             return (
                 session.query(Tasks)
                 .filter(and_(
                     Tasks.user_id == user_id,
                     Tasks.status == STATUS[DONE],
-                    Tasks.datetime_end >= datetime.combine(curr_date_by_user_timezone, datetime.min.time())
+                    Tasks.datetime_end >= datetime.combine(current_date_user, datetime.min.time())
                 ))
                 .order_by(Tasks.id.desc())
                 .all()
@@ -109,25 +113,29 @@ class Tasks(Base):
 
 
     @decor_session
-    def count_completed_tasks_today(self, curr_date_by_user_timezone, session):
+    def count_completed_tasks_today(self, session):
+        current_date_user = get_current_date_user()
         user_id = self._get_user_id_object()
-        if user_id:
+        if user_id and current_date_user:
             return (
                 session.query(func.count(Tasks.id))
                 .filter(
                     Tasks.user_id == user_id,
                     Tasks.status == STATUS[DONE],
-                    func.date(Tasks.datetime_end) == curr_date_by_user_timezone
+                    func.date(Tasks.datetime_end) == current_date_user.strftime("%Y-%m-%d")
                 )
                 .scalar()
             )
 
+        return 0
+
 
     @decor_session
     def statistic_graph_by_last_7_days(self, session):
+        current_date_user = get_current_date_user()
         user_id = self._get_user_id_object()
-        if user_id:
-            seven_days_ago = datetime.now() - timedelta(days=7)
+        if user_id and current_date_user:
+            seven_days_ago = current_date_user - timedelta(days=7)
             # Запрос для выборки данных за последние 7 дней и группировки по дням
             return (
                 session.query(

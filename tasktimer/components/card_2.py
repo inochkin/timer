@@ -7,7 +7,7 @@ from lib.general_func import time_to_seconds
 from lib.static import TEST_TIMER
 
 
-def card_2(user_timezone):
+def card_2():
     _, col2, _ = st.columns([1, 2, 1])
     with col2:
         st.title("Run Task")
@@ -43,8 +43,7 @@ def card_2(user_timezone):
             audio_source_click = f"data:audio/mp3;base64,{audio_base64}"
 
         # HTML + JavaScript таймер с ограничением
-        import_run_task(user_timezone, hours_minutes, desc, priority,
-                        limit_timer, audio_source_done, audio_source_click)
+        import_run_task(hours_minutes, desc, priority, limit_timer, audio_source_done, audio_source_click)
 
         if st.button("Cancel"):
             # need full restart page to get cookies update.
